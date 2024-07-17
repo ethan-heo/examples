@@ -20,5 +20,19 @@ it(`Mock.array`, () => {
     })
     .valueOf();
 
+  console.log(arr);
+
   expect(arr.length).toBe(10);
+});
+
+it(`Mock.object`, () => {
+  const obj = Mock.object({
+    id: Mock.number().set({ max: 999 }),
+    name: Mock.lorem().set({ type: "Word" }),
+    tags: Mock.array(Mock.lorem().set({ type: "Word" })).set({ length: 10 }),
+  }).valueOf();
+
+  console.log(obj);
+
+  expect(obj).toBeTypeOf("object");
 });
