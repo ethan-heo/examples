@@ -35,11 +35,11 @@ class _Array<Mock extends MockData[]>
     const self = this;
     const mockCount = self.mocks.length;
 
-    return self
-      .makeArray()
-      .map(() =>
-        self.mocks[Random.number(0, mockCount - 1)].valueOf(),
-      ) as ReturnType<Mock[number]["valueOf"]>[];
+    return self.makeArray().map(() => {
+      const result = self.mocks[Random.number(0, mockCount - 1)].valueOf();
+      // console.log(result);
+      return result;
+    }) as ReturnType<Mock[number]["valueOf"]>[];
   }
 
   private makeArray() {
