@@ -1,61 +1,108 @@
 import Heap from "./Heap";
 
 class VariableObject {
-  variables: Map<any, any> = new Map();
+  variables = new Map<any, any>();
   heap: Heap;
+  referredVariables = new Set();
+  REF_SEPERATOR = ".";
 
-  constructor(heap: Heap) {
+  constructor(heap: Heap, variables: Record<any, any> = {}) {
     this.heap = heap;
-  }
-
-  add(identifier: string, value: any) {
-    const self = this;
-
-    self.variables.set(identifier, value);
-    self.travalseObject(value, (value) => self.heap.add(value));
+    this.set(variables);
   }
 
   set(variables: Record<string, any>) {
     const self = this;
 
-    for (const identifier in variables) {
-      self.variables.set(identifier, variables[identifier]);
-    }
+    self.travalseObject(variables, (key, value) => {
+      if (typeof value === "object") {
+        self.heap.add(value);
+      }
+
+      if (!key.includes(this.REF_SEPERATOR)) {
+        self.variables.set(key, value);
+        return;
+      }
+    });
+  }
+
+  refer(variable: any) {
+    // this.referredVariables.
   }
 
   removeAll() {
     const self = this;
     const _variables = new Map(self.variables);
 
-    self.variables.forEach((variable, identifier) => {
-      _variables.delete(identifier);
-      self.travalseObject(variable, (value) => self.heap.remove(value));
+    self.travalseObject(_variables, (key, value) => {
+      if (typeof value === "object") {
+        self.heap.remove(value);
+      }
+
+      if (!key.includes(this.REF_SEPERATOR)) {
+        _variables.delete(key);
+        return;
+      }
     });
 
     self.variables.clear();
     this.variables = _variables;
   }
 
-  findVariable() {}
+  has(variable: any) {
+    const self = this;
+
+    return self.variables.has(variable) || self.heap.has(variable);
+  }
 
   isEmpty() {
     return this.variables.size === 0;
   }
 
   private travalseObject(
-    value: Record<any, any> | any[],
-    callback: (value: Record<any, any> | any[]) => void,
+    value: Record<any, any>,
+    callback: (key: string, value: any) => void,
   ) {
-    if (typeof value === "object") {
-      callback(value);
-      if (Array.isArray(value)) {
-        for (const _v of value) {
-          this.travalseObject(_v, callback);
+    let stack = (
+      value.constructor.name === "Map"
+        ? Array.from(value.entries())
+        : Object.entries(value)
+    ) as [string, any][];
+    let returnCounts: number[] = [stack.length];
+    const keyStack: string[] = [];
+
+    while (stack.length) {
+      const [key, value] = stack.shift()!;
+
+      keyStack.push(key);
+      callback(keyStack.join(this.REF_SEPERATOR), value);
+
+      if (typeof value === "object") {
+        const _stack: [string, any][] = [];
+        let count = 0;
+
+        for (const _key in value) {
+          _stack.push([_key, value[_key]]);
+          count++;
         }
+
+        stack = [..._stack, ...stack];
+        returnCounts.push(count);
       } else {
-        for (const key in value) {
-          this.travalseObject(value[key], callback);
+        const _returnCount = [...returnCounts];
+
+        for (const count of returnCounts.reverse()) {
+          keyStack.pop();
+
+          if (count === 1) {
+            _returnCount.pop();
+          } else {
+            _returnCount[_returnCount.length - 1] -= 1;
+            break;
+          }
         }
+
+        returnCounts = _returnCount;
       }
     }
   }

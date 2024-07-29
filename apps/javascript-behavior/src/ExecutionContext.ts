@@ -1,39 +1,33 @@
 import FrameStack from "./FrameStack";
-import Heap from "./Heap";
 import VariableObject from "./VariableObject";
 
 class ExecutionContext {
   frameStack: FrameStack | undefined;
-  variableObject: VariableObject;
+  variableObject: VariableObject | undefined;
 
-  constructor(heap: Heap, variables: Record<string, any> = {}) {
-    const variableObject = new VariableObject(heap);
-
-    for (const identifier in variables) {
-      variableObject.add(identifier, variables[identifier]);
-    }
-
-    this.variableObject = variableObject;
-  }
-
-  setFrameStack(frameStack: FrameStack) {
-    this.frameStack = frameStack;
-  }
-
-  start() {
+  create(frameStack: FrameStack, variableObject: VariableObject) {
     const self = this;
 
-    self.isReady();
+    self.frameStack = frameStack;
+    self.frameStack!.push(this);
+    self.variableObject = variableObject;
 
     return this;
   }
 
-  end() {
+  run(variables: Record<any, any> = {}) {
+    const self = this;
+
+    self.isReady();
+    self.variableObject!.set(variables);
+  }
+
+  remove() {
     const self = this;
 
     self.isReady();
     self.frameStack!.pop(this);
-    self.variableObject.removeAll();
+    self.variableObject!.removeAll();
 
     return this;
   }
@@ -43,22 +37,27 @@ class ExecutionContext {
 
     self.isReady();
 
+    const findExecutionContextCallback = (
+      executionContext: ExecutionContext,
+    ) => {
+      return executionContext.variableObject!.has(variable);
+    };
     const outerExecutionContext = self.frameStack!.findOuterExecutionContext(
       this,
-      (executionContext) => {
-        return true;
-      },
+      findExecutionContextCallback,
     );
 
     if (!outerExecutionContext) {
-      throw new Error("value not found");
+      throw new Error("Variable not found");
     }
+
+    outerExecutionContext.variableObject!.refer(variable);
   }
 
   private isReady() {
     const self = this;
 
-    if (!self.frameStack) {
+    if (!self.frameStack || !self.variableObject) {
       throw new Error(
         `This is an Execution Context that has not been added to FrameStack.`,
       );

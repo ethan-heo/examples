@@ -4,8 +4,6 @@ class FrameStack {
   stack: ExecutionContext[] = [];
 
   push(executionContext: ExecutionContext) {
-    executionContext.setFrameStack(this);
-
     this.stack.push(executionContext);
   }
 

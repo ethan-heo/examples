@@ -15,8 +15,21 @@ class Heap {
     self.memory.add(obj);
   }
 
+  get(obj: any) {
+    for (const value of this.memory.values()) {
+      if (value === obj) {
+        return value;
+      }
+    }
+    return null;
+  }
+
   remove(obj: any) {
     this.memory.delete(obj);
+  }
+
+  has(obj: any) {
+    return this.memory.has(obj);
   }
 
   isEmpty() {
