@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+## Frontend Layered Architecture - basic
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Redux, Redux-saga, React를 사용하는 프론트엔드 환경에서 레이어드 아키텍처를 도입함으로써 관심사를 명확히 분리하고 유지보수성을 높이는 방안에 대한 예제를 구성
 
-Currently, two official plugins are available:
+## TodoList 요구사항
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[ ] Todo를 추가, 수정, 삭제를 할 수 있다.
+[ ] Todo 상태를 변경할 수 있다. (Not Ready / In Progress / Done)
+[ ] 중요도를 선택할 수 있다.
+[ ] 필터링을 할 수 있다. (중요도 / 상태)
+[ ] 정렬을 할 수 있다.
 
-## Expanding the ESLint configuration
+## 아키텍처 구조
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+프론트엔드 개발을 하다보면 기능별로 폴더 구조를 나누어 작업을 진행하는게 일반적이다. 예를들어 components, hooks, modules, utils 등. 이렇게 구성하면 책임이 명확해져 해당하는 영역에 기능을 구현하여 관심사를 분리할 수 있어보이지만 시간이 지날 수록 책임에 대한 경계가 모호해지는 케이스가 발생한다.
 
-- Configure the top-level `parserOptions` property like this:
+그 케이스에는 아래와 같은 이유가 있다고 생각한다.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- 서비스가 커지고 여러 프로젝트가 만들어지면서 개개인이 담당을 맡게 되는 경우
+- 기능별 폴더는 사용 범위가 넓어 규칙이나 제약사항을 적용하기 어려움
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+프로젝트가 많아지고 담당자가 많아질 수록 개개인의 코드 구현 방식이 다르기 때문에 별도의 규칙을 적용하지 않는 이상 시간이 지날 수록 다양한 형태의 구현 결과를 볼 수 있다. 누군가 퇴사를 하거나 새로운 동료가 이 프로젝트를 맡게 되었을 때 상대적으로 운영하기 쉽지 않은 상황이 발생한다.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+기능별 폴더 구성은 말 그대로 기능별로 모아둔 형태로만 사용이 된다. 어떻게 사용할지 정의하지 않게 되면 여러 사람의 다양한 생각들이 코드 곳곳에 나타나게 된다. 만약 정의한다고 하더라도 사용처가 다양하게 구성되어 있기 때문에 의존도가 높아질 수 있고 그로인해 유지보수가 어려워지는 상황이 발생할 수도 있다.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+결국 어떤 구조든 "무엇을, 어떻게 사용해야할지"를 명확히 정의하지 않는다면 추후 개선이 어려워질 수 있다고 생각한다. 그래서 이러한 내용을 보완하기 위해 아키텍처를 고안해봤고 간단한 예제를 통해 구현해보려 한다.
+
+내가 생각한 아키텍처는 레이어드한 형태이다. 레이어드 아키텍처는 코드에 대한 책임을 명확히 나눈다. 그리고 각 계층의 코드는 접근 가능한 API를 통해 사용할 수 있으며 직접적으로 내부 코드를 불러와 사용할 수 없도록 되어 있다. 그래서 결과적으로 의존도를 줄여 확장, 유지보수성을 높일 수 있다. 이러한 형태는 무엇(계층)을 어떻게(API) 사용할지 명확히 나타낼 수 있다.
+
+### Presentation
+
+프레젠테이션 영역에서 하는 일은 React 내부에서 Redux의 상태를 UI에 반영한다.
+
+### Application
+
+어플리케이션 영역에서 하는 일은 Redux의 상태를 구조화하거나 변경한다.
+
+### Domain
+
+도메인 영역은 비즈니스 로직을 관리하기 위한 영역으로 Redux-saga의 컨텍스트에 의존한다. 비즈니스 로직과 saga의 컨텍스트를 분리하여 구성한다.
+
+### Infra
+
+인프라 영역은 API 및 외부 서비스에 요청하는 작업을 담당한다.
