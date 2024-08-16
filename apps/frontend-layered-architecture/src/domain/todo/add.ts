@@ -1,9 +1,11 @@
 import { put, select } from "redux-saga/effects";
 import { AppState, TodoApp } from "../../application";
 
+type Action = ReturnType<typeof TodoApp.addTodoAction>;
+
 export const addTodo = (
   state: TodoApp.TodoState,
-  item: Omit<TodoApp.TodoState["list"][number], "id">,
+  item: Action["payload"],
 ): TodoApp.TodoState["list"] => {
   return [
     ...state.list,
@@ -16,7 +18,7 @@ export const addTodo = (
   ];
 };
 
-function* addTodoSaga(action: ReturnType<typeof TodoApp.addTodoAction>) {
+function* addTodoSaga(action: Action) {
   const todo = (yield select(
     (state: AppState) => state.todo,
   )) as TodoApp.TodoState;

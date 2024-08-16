@@ -1,16 +1,18 @@
 import { put, select } from "redux-saga/effects";
 import { AppState, TodoApp } from "../../application";
 
+type Action = ReturnType<typeof TodoApp.updateTodoAction>;
+
 export const updateTodo = (
   state: TodoApp.TodoState,
-  updatedTodoItem: TodoApp.TodoState["list"][number],
+  updatedTodoItem: Action["payload"],
 ) => {
   return state.list.map((todoItem) =>
     todoItem.id === updatedTodoItem.id ? updatedTodoItem : todoItem,
   );
 };
 
-function* updateTodoSaga(action: ReturnType<typeof TodoApp.updateTodoAction>) {
+function* updateTodoSaga(action: Action) {
   const todo = (yield select(
     (state: AppState) => state.todo,
   )) as TodoApp.TodoState;
