@@ -22,3 +22,8 @@ export const UPDATE_TODO_STATUS_ACTION_TYPE = `${TODO_ACTION_PREFIX}/UPDATE_TODO
 export const updateTodoStatusAction = createAction<
   Required<Pick<TodoItem, "id" | "status">>
 >(UPDATE_TODO_STATUS_ACTION_TYPE);
+
+export const UPDATE_TODO_IMPORTANCE_ACTION_TYPE = `${TODO_ACTION_PREFIX}/UPDATE_TODO_IMPORTANCE`;
+export const updateTodoImportanceAction = createAction<
+  Required<Pick<TodoItem, "id" | "importance">>
+>(UPDATE_TODO_IMPORTANCE_ACTION_TYPE);
