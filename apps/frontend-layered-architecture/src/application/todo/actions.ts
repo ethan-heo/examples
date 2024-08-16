@@ -1,11 +1,12 @@
 import { createAction } from "@reduxjs/toolkit";
-import { TodoItem } from "./interface";
+import { TodoItem, TodoState } from "./interface";
 
 export const TODO_ACTION_PREFIX = "@TODO";
 
 export const ADD_TODO_ACTION_TYPE = `${TODO_ACTION_PREFIX}/ADD`;
-export const addTodoAction =
-  createAction<Omit<TodoItem, "id">>(ADD_TODO_ACTION_TYPE);
+export const addTodoAction = createAction<
+  Pick<TodoItem, "content"> & Partial<Pick<TodoItem, "status" | "importance">>
+>(ADD_TODO_ACTION_TYPE);
 
 export const DELETE_TODO_ACTION_TYPE = `${TODO_ACTION_PREFIX}/DELETE`;
 export const deleteTodoAction = createAction<string>(DELETE_TODO_ACTION_TYPE);
@@ -27,3 +28,8 @@ export const UPDATE_TODO_IMPORTANCE_ACTION_TYPE = `${TODO_ACTION_PREFIX}/UPDATE_
 export const updateTodoImportanceAction = createAction<
   Required<Pick<TodoItem, "id" | "importance">>
 >(UPDATE_TODO_IMPORTANCE_ACTION_TYPE);
+
+export const FILTER_TODO_LIST_ACTION_TYPE = `${TODO_ACTION_PREFIX}/FILTER_TODO_LIST`;
+export const filterTodoListAction = createAction<Pick<TodoState, "filterType">>(
+  FILTER_TODO_LIST_ACTION_TYPE,
+);

@@ -5,6 +5,7 @@ import deleteTodoSaga from "./delete";
 import updateTodoSaga from "./update";
 import updateStatusSaga from "./updateStatus";
 import updateImportanceSaga from "./updateImportance";
+import filterTodoListSaga from "./filter";
 
 function* todoSaga() {
   yield takeLatest(TodoApp.ADD_TODO_ACTION_TYPE, addTodoSaga);
@@ -15,6 +16,7 @@ function* todoSaga() {
     TodoApp.UPDATE_TODO_IMPORTANCE_ACTION_TYPE,
     updateImportanceSaga,
   );
+  yield takeLatest(TodoApp.FILTER_TODO_LIST_ACTION_TYPE, filterTodoListSaga);
 }
 
 export default todoSaga;

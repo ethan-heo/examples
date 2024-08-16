@@ -3,8 +3,11 @@ import { addTodo } from "./add";
 import { TodoApp } from "../../application";
 
 it(`상태, 중요도를 추가하지 않으면 기본값이 설정된다.`, () => {
-  const todoState: TodoApp.TodoState = { list: [] };
-  const todoItem: Omit<TodoApp.TodoItem, "id"> = {
+  const todoState: TodoApp.TodoState = {
+    list: [],
+    filterType: TodoApp.constants.TODO_FILTER.NONE,
+  };
+  const todoItem: Pick<TodoApp.TodoItem, "content"> = {
     content: "hello world",
   };
   const expected: TodoApp.TodoItem[] = [

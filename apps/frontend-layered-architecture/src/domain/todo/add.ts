@@ -3,17 +3,14 @@ import { AppState, TodoApp } from "../../application";
 
 type Action = ReturnType<typeof TodoApp.addTodoAction>;
 
-export const addTodo = (
-  state: TodoApp.TodoState,
-  item: Action["payload"],
-): TodoApp.TodoState["list"] => {
+export const addTodo = (state: TodoApp.TodoState, item: Action["payload"]) => {
   return [
     ...state.list,
     {
+      ...item,
       id: "random",
       status: item.status ?? "NOT_READY",
       importance: item.importance ?? false,
-      ...item,
     },
   ];
 };

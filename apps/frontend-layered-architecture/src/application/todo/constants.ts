@@ -3,3 +3,9 @@ export const TODO_STATUS = {
   IN_PROGRESS: "IN_PROGRESS",
   DONE: "DONE",
 } as const;
+
+export const TODO_FILTER = {
+  IMPORTANCE: "IMPORTANCE",
+  NONE: "NONE",
+  ...TODO_STATUS,
+} as const;
