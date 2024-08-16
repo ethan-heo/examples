@@ -113,8 +113,8 @@ it(`3. Scope Chaining`, () => {
   executionContext1.run(runtimeExecutionContext1Variables);
 
   executionContext2.create(frameStack, new VariableObject(heap));
+  executionContext2.chaning(runtimeExecutionContext1Variables.todoCount);
+  executionContext2.chaning(runtimeExecutionContext1Variables.todos[0]);
   executionContext2.run();
-  executionContext1.chaning(runtimeExecutionContext1Variables.todoCount);
-  executionContext1.chaning(runtimeExecutionContext1Variables.todos[0]);
   executionContext2.remove();
 });
