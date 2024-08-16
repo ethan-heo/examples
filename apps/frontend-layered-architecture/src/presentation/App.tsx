@@ -1,10 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "../assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState, TodoApp } from "../application";
 
 function App() {
   const [count, setCount] = useState(0);
+  const todo = useSelector<AppState, TodoApp.TodoState>((state) => state.todo);
+  const dispatch = useDispatch();
+
+  console.log(todo);
+
+  useEffect(() => {
+    dispatch(
+      TodoApp.addTodoAction({
+        content: "hello world",
+        status: "NOT_READY",
+        importance: false,
+      }),
+    );
+  }, []);
 
   return (
     <>

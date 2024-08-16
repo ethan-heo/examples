@@ -4,8 +4,8 @@ Redux, Redux-saga, React를 사용하는 프론트엔드 환경에서 레이어�
 
 ## TodoList 요구사항
 
-[ ] Todo를 추가, 수정, 삭제를 할 수 있다.
-[ ] Todo 상태를 변경할 수 있다. (Not Ready / In Progress / Done)
+[ ] 추가, 수정, 삭제를 할 수 있다.
+[ ] 상태를 변경할 수 있다. (Not Ready / In Progress / Done)
 [ ] 중요도를 선택할 수 있다.
 [ ] 필터링을 할 수 있다. (중요도 / 상태)
 [ ] 정렬을 할 수 있다.
