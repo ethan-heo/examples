@@ -1,17 +1,15 @@
 import { takeLatest } from "redux-saga/effects";
-import {
-  ADD_TODO_ACTION_TYPE,
-  DELETE_TODO_ACTION_TYPE,
-  UPDATE_TODO_ACTION_TYPE,
-} from "../../application/todo";
+import { TodoApp } from "../../application";
 import addTodoSaga from "./add";
 import deleteTodoSaga from "./delete";
 import updateTodoSaga from "./update";
+import updateStatusSaga from "./updateStatus";
 
 function* todoSaga() {
-  yield takeLatest(ADD_TODO_ACTION_TYPE, addTodoSaga);
-  yield takeLatest(DELETE_TODO_ACTION_TYPE, deleteTodoSaga);
-  yield takeLatest(UPDATE_TODO_ACTION_TYPE, updateTodoSaga);
+  yield takeLatest(TodoApp.ADD_TODO_ACTION_TYPE, addTodoSaga);
+  yield takeLatest(TodoApp.DELETE_TODO_ACTION_TYPE, deleteTodoSaga);
+  yield takeLatest(TodoApp.UPDATE_TODO_ACTION_TYPE, updateTodoSaga);
+  yield takeLatest(TodoApp.UPDATE_TODO_STATUS_ACTION_TYPE, updateStatusSaga);
 }
 
 export default todoSaga;

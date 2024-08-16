@@ -17,3 +17,8 @@ export const UPDATED_TODO_LIST_ACTION_TYPE = `${TODO_ACTION_PREFIX}/UPDATED_TODO
 export const updatedTodoListAction = createAction<TodoItem[]>(
   UPDATED_TODO_LIST_ACTION_TYPE,
 );
+
+export const UPDATE_TODO_STATUS_ACTION_TYPE = `${TODO_ACTION_PREFIX}/UPDATE_TODO_STATUS`;
+export const updateTodoStatusAction = createAction<
+  Required<Pick<TodoItem, "id" | "status">>
+>(UPDATE_TODO_STATUS_ACTION_TYPE);
