@@ -9,3 +9,8 @@ export const TODO_FILTER = {
   NONE: "NONE",
   ...TODO_STATUS,
 } as const;
+
+export const TODO_SORT = {
+  IMPORTANCE: "IMPORTANCE",
+  NONE: "NONE",
+} as const;

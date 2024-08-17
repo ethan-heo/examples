@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { TodoApp } from "../../application";
-import { filterTodoList } from "./filter";
+import { sortTodo } from "./sort";
 
 const todoState: TodoApp.TodoState = {
   list: [
@@ -39,22 +39,17 @@ const todoState: TodoApp.TodoState = {
   sortType: TodoApp.constants.TODO_SORT.NONE,
 };
 
-it.each([
-  [
-    TodoApp.constants.TODO_FILTER.NOT_READY,
-    [todoState.list[0], todoState.list[3], todoState.list[4]],
-  ],
-  [TodoApp.constants.TODO_FILTER.IN_PROGRESS, [todoState.list[1]]],
-  [TodoApp.constants.TODO_FILTER.DONE, [todoState.list[2]]],
-  [TodoApp.constants.TODO_FILTER.IMPORTANCE, [todoState.list[3]]],
-  [TodoApp.constants.TODO_FILTER.NONE, todoState.list],
-])(
-  `중요도, 상태에 따라 TodoList를 필터링한다.`,
-  async (filterType, expected) => {
-    expect(
-      await filterTodoList(todoState.list, {
-        filterType,
-      }),
-    ).toStrictEqual(expected);
-  },
-);
+it(`중요도를 기준으로 내림차순 정렬한다.`, () => {
+  const expected = [
+    todoState.list[3],
+    todoState.list[0],
+    todoState.list[1],
+    todoState.list[2],
+    todoState.list[4],
+  ];
+  expect(
+    sortTodo(todoState.list, {
+      sortType: TodoApp.constants.TODO_SORT.IMPORTANCE,
+    }),
+  ).toStrictEqual(expected);
+});

@@ -33,3 +33,8 @@ export const FILTER_TODO_LIST_ACTION_TYPE = `${TODO_ACTION_PREFIX}/FILTER_TODO_L
 export const filterTodoListAction = createAction<Pick<TodoState, "filterType">>(
   FILTER_TODO_LIST_ACTION_TYPE,
 );
+
+export const SORT_TODO_LIST_ACTION_TYPE = `${TODO_ACTION_PREFIX}/SORT_TODO_LIST`;
+export const sortTodoListAction = createAction<Pick<TodoState, "sortType">>(
+  FILTER_TODO_LIST_ACTION_TYPE,
+);

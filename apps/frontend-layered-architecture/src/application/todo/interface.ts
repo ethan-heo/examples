@@ -9,7 +9,10 @@ export type TodoItem = {
 
 export type TodoFilterType = TodoStatus | "IMPORTANCE" | "NONE";
 
+export type TodoSortType = "IMPORTANCE" | "NONE";
+
 export type TodoState = {
   list: TodoItem[];
   filterType: TodoFilterType;
+  sortType: TodoSortType;
 };
