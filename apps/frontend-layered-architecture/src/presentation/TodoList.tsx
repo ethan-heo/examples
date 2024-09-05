@@ -1,5 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTodoAction, selectTodoList } from "../application/todo";
+import {
+  deleteTodoAction,
+  selectTodoList,
+  TodoStatus,
+  updateTodoStatusAction,
+} from "../application/todo";
 import { Button, Flex, Paragraph } from "@ethanheo/ui";
 
 function TodoList() {
@@ -7,11 +12,28 @@ function TodoList() {
   const dispatch = useDispatch();
 
   return (
-    <ul>
+    <Flex as="ul" vertical gap style={{ padding: 0 }}>
       {todoList.map((todo) => (
         <Flex as="li" key={todo.id} justify="space-between" align="center">
-          <Paragraph>{todo.content}</Paragraph>{" "}
-          <Flex column="col-1">
+          <Flex vertical>
+            <Paragraph>{todo.content}</Paragraph>{" "}
+          </Flex>
+          <Flex column="col-2" vertical gap>
+            <select
+              defaultValue={todo.status}
+              onChange={(e) =>
+                dispatch(
+                  updateTodoStatusAction({
+                    id: todo.id,
+                    status: e.target.value as TodoStatus,
+                  }),
+                )
+              }
+            >
+              <option value="NOT_READY">Not Ready</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="DONE">Done</option>
+            </select>
             <Button
               size="small"
               onClick={() => dispatch(deleteTodoAction(todo.id))}
@@ -21,7 +43,7 @@ function TodoList() {
           </Flex>
         </Flex>
       ))}
-    </ul>
+    </Flex>
   );
 }
 
