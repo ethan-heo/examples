@@ -3,9 +3,10 @@ import {
   deleteTodoAction,
   selectTodoList,
   TodoStatus,
+  updateTodoImportanceAction,
   updateTodoStatusAction,
 } from "../application/todo";
-import { Button, Flex, Paragraph } from "@ethanheo/ui";
+import { Button, Flex, Paragraph, Text } from "@ethanheo/ui";
 
 function TodoList() {
   const todoList = useSelector(selectTodoList);
@@ -16,6 +17,7 @@ function TodoList() {
       {todoList.map((todo) => (
         <Flex as="li" key={todo.id} justify="space-between" align="center">
           <Flex vertical>
+            {todo.importance && <Text>중요</Text>}
             <Paragraph>{todo.content}</Paragraph>{" "}
           </Flex>
           <Flex column="col-2" vertical gap>
@@ -34,6 +36,19 @@ function TodoList() {
               <option value="IN_PROGRESS">In Progress</option>
               <option value="DONE">Done</option>
             </select>
+            <Button
+              size="small"
+              onClick={() =>
+                dispatch(
+                  updateTodoImportanceAction({
+                    id: todo.id,
+                    importance: !todo.importance,
+                  }),
+                )
+              }
+            >
+              {todo.importance ? "중요 해제" : "중요"}
+            </Button>
             <Button
               size="small"
               onClick={() => dispatch(deleteTodoAction(todo.id))}
