@@ -8,7 +8,7 @@ export const addTodo = (state: TodoApp.TodoState, item: Action["payload"]) => {
     ...state.list,
     {
       ...item,
-      id: "random",
+      id: Math.floor(Math.random() * 10000).toString(),
       status: item.status ?? "NOT_READY",
       importance: item.importance ?? false,
     },
