@@ -33,7 +33,7 @@ function TodoForm() {
 
   return (
     <Form onSubmit={onSubmit}>
-      <Input {...form.todo.element} />
+      <Input {...form.todo.element} placeholder="입력해주세요." />
       <Button>추가</Button>
     </Form>
   );

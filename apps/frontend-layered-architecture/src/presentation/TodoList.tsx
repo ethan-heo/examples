@@ -13,7 +13,12 @@ function TodoList() {
   const dispatch = useDispatch();
 
   return (
-    <Flex as="ul" vertical gap style={{ padding: 0 }}>
+    <Flex
+      as="ul"
+      vertical
+      gap
+      style={{ padding: "0 16px", boxSizing: "border-box" }}
+    >
       {todoList.map((todo) => (
         <Flex as="li" key={todo.id} justify="space-between" align="center">
           <Flex vertical>
