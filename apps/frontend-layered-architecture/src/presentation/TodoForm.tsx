@@ -10,8 +10,21 @@ function TodoForm() {
         id: "todo",
         defaultValue: "",
         event: "change",
+        validate: (value) => {
+          if (value.trim().length === 0) {
+            return {
+              valid: false,
+              msg: "추가할 내용이 없습니다.",
+            };
+          }
+
+          return {
+            valid: true,
+          };
+        },
       },
     },
+    submitWithValidation: true,
     submit: (form) => {
       dispatch(addTodoAction({ content: form.todo.element.value }));
       form.todo.reset();

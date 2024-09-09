@@ -559,10 +559,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/object-schema/-/object-schema-2.1.4.tgz#9e69f8bb4031e11df79e03db09f9dbbae1740843"
   integrity sha512-BsWiH1yFGjXXS2yvrf5LyuoSIIbPrGUWob917o+BTKuZ7qJdxX8aJLRxs1fS9n6r7vESrq1OUqb68dANcFXuQQ==
 
-"@ethanheo/ui@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@ethanheo/ui/-/ui-0.0.11.tgz#53b2bfed52f327d74e8302a73e4fa7e0092a4149"
-  integrity sha512-K3Z8gNFEVX1lFvfxw+N0CZT2tynz4zluFrc0MD+OehyhYaGvGkyw+VokWBLONYADaX8wdMh+IuFm21soRYSsDA==
+"@ethanheo/ui@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@ethanheo/ui/-/ui-0.0.12.tgz#bd79ae035b67adc37a9bb61ffb479b4635246dc7"
+  integrity sha512-gpcu7bfu9OE75ddvWh6eTVExCxiCcFpSHuHrz+kXAjb1OJaNUud6hWK0nz6AlaSywk1LFvkl+TbhlpDFCrIxdQ==
   dependencies:
     react "^18.2.0"
     react-dom "^18.2.0"
